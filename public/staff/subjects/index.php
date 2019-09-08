@@ -1,12 +1,11 @@
-<!doctype html>
+<?php require_once('../../../private/initialize.php');?> <!-- you shluod make this only with dots(../../) --> 
 
-<html lang="en">
-  <head>
-    <title></title>
-    <meta charset="utf-8">
-  </head>
+<!-- staff header -->
+<!-- page title -->
+<?php $page_title = "Subjects Menu"; ?> 
+<?php include (SHARED_PATH . '/staff_header.php'); ?> 
+    <div id="content">
+    </div>
 
-  <body>
-
-  </body>
-</html>
+<!-- staff footer -->
+<?php include (SHARED_PATH . '/staff_footer.php'); ?> 

@@ -1,0 +1,11 @@
+/*
+
+  this is for make the site nice for Arabic 
+
+*/
+
+
+body {
+	direction: rtl;
+	text-align: right;  
+}

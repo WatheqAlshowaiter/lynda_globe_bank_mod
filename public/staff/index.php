@@ -3,9 +3,15 @@
 
 <!-- staff header -->
 <!-- page titile -->
-<?php $page_title = "Staff Menu"; ?> 
+<?php $page_title = "قائمة الموطفين"; ?> 
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 <div id="content" class="container">
+    <div id="main-menu">
+        <h2>القائمة الرئيسية</h2>
+         <ul>
+            <li><a href="subjects/index.php">العناوين</a></li>
+        </ul>
+    </div>
 </div>
 
 <!-- staff footer -->

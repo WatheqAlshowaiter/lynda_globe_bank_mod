@@ -8,11 +8,11 @@ if (!isset($page_title)) {
 <html lang="utf-8">
 
 <head>
-  <title>GBI - <?php echo $page_title; ?> </title>
-  <meta charset="utf-8">
-  <link rel="stylesheet" media="all" href="../../public/lib/bootstrap/css/bootstrap.min.css" />
-  <link rel="stylesheet" media="all" href="../../public/lib/bootstrap/css/bootstrap_rtl.css" />
-  <link rel="stylesheet" media="all" href="../stylesheets/staff.css" />
+  <title>البنك الدولي - <?php echo $page_title; ?> </title>
+  <meta charset="utf-8"> <!-- ?= is shortcut for echo. php 7 -->  
+  <link rel="stylesheet" media="all" href="<?= url_for('lib/bootstrap/css/bootstrap.min.css')?>" />
+  <link rel="stylesheet" media="all" href="<?= url_for('/lib/bootstrap/css/bootstrap_rtl.css')?>" />
+  <link rel="stylesheet" media="all" href="<?= url_for('/stylesheets/staff.css')?>" />
 
 </head>
 
@@ -28,5 +28,5 @@ if (!isset($page_title)) {
   </header>
 
   <div class="text-center py-4" id="staff_menu">
-      <a href="index.php">القائمة</a>
+      <a href="<?= url_for('staff/index.php'); ?>">القائمة</a> <!-- ?= is shortcut for echo. php 7 -->  
 </div>

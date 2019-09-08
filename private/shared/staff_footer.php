@@ -1,15 +1,15 @@
+<footer class="bg-primary py-3 fixed-bottom">
+  <div class="container text-white">
+    &copy; <?php echo date('Y'); ?> البنك الدولي
+  </div>
 
-    <footer class="bg-primary py-5 fixed-bottom">
-      <div class="container text-white"> 
-         &copy; <?php echo date('Y'); ?> البنك الدولي
-    </div>
-    
-    </footer> 
+</footer>
 
 <!-- includes libs/vendors -->
-<script src="../../public/lib/jquery/jquery.min.js"></script>
-<script src="../../public/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="<?= url_for('/lib/jquery/jquery.min.js'); ?>"></script>
+<script src="<?= url_for('lib/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
 
 
-  </body>
+</body>
+
 </html>

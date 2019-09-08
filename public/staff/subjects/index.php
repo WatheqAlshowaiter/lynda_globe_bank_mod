@@ -2,7 +2,7 @@
 
 <!-- staff header -->
 <!-- page title -->
-<?php $page_title = "Subjects Menu"; ?> 
+<?php $page_title = "قائمة العناوين"; ?> 
 <?php include (SHARED_PATH . '/staff_header.php'); ?> 
 <div id="content" class="container">
 </div>

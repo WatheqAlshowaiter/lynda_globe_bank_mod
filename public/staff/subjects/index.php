@@ -4,8 +4,8 @@
 <!-- page title -->
 <?php $page_title = "Subjects Menu"; ?> 
 <?php include (SHARED_PATH . '/staff_header.php'); ?> 
-    <div id="content">
-    </div>
+<div id="content" class="container">
+</div>
 
 <!-- staff footer -->
 <?php include (SHARED_PATH . '/staff_footer.php'); ?> 

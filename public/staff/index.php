@@ -5,7 +5,7 @@
 <!-- page titile -->
 <?php $page_title = "Staff Menu"; ?> 
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
-<div id="content">
+<div id="content" class="container">
 </div>
 
 <!-- staff footer -->

@@ -1,3 +1,15 @@
-<?php 
+<?php require_once('../../../private/initialize.php'); ?>
+<?php
 
-echo $_GET['id']; 
+// $id =  isset($_GET['id']) ? $_GET['id']: '1'; // before php 7.0
+$id = $_GET['id'] ?? '1'; // like previous one but for > PHP 7.0  
+
+
+echo $id;
+
+?> 
+
+<!-- some links to encode -->
+<a href="show.php?name=<?php echo u('John Doe'); ?>">Link</a><br />
+<a href="show.php?company=<?php echo u('Widgets&More'); ?>">Link</a><br />
+<a href="show.php?query=<?php echo u('!#*?'); ?>">Link</a><br />

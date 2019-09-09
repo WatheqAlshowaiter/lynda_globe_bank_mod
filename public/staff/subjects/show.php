@@ -5,9 +5,9 @@
 $id = $_GET['id'] ?? '1'; // like previous one but for > PHP 7.0  
 
 
-echo $id;
+echo h($id);
 
-?> 
+?>
 
 <!-- some links to encode -->
 <a href="show.php?name=<?php echo u('John Doe'); ?>">Link</a><br />

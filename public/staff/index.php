@@ -9,7 +9,7 @@
     <div id="main-menu">
         <h2>القائمة الرئيسية</h2>
          <ul>
-            <li><a href="subjects/index.php">العناوين</a></li>
+            <li><a href="<?= url_for('staff/subjects/index.php');?>">العناوين</a></li>
         </ul>
     </div>
 </div>

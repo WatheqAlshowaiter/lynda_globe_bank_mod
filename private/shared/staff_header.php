@@ -3,7 +3,7 @@
 <html lang="utf-8">
 
 <head>
-  <title>البنك الدولي - <?php echo isset($page_title)?$page_title: 'منطقة الموظفين'; ?> </title>
+  <title>البنك الدولي - <?php echo isset($page_title)? h($page_title): 'منطقة الموظفين'; ?> </title>
   <meta charset="utf-8"> <!-- ?= is shortcut for echo. php 7 -->  
   <link rel="stylesheet" media="all" href="<?= url_for('lib/bootstrap/css/bootstrap.min.css')?>" />
   <link rel="stylesheet" media="all" href="<?= url_for('/lib/bootstrap/css/bootstrap_rtl.css')?>" />

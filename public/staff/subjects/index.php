@@ -37,11 +37,11 @@ $subjects = [
             <?php foreach ($subjects as $subject) : ?>
                 <tbody>
                     <tr>
-                        <td><?= $subject['id']; ?></td>
-                        <td><?= $subject['position']; ?></td>
-                        <td><?= $subject['visible'] == 1 ? 'نعم' : 'لا'; ?></td>
-                        <td><?= $subject['menu_name']; ?></td>
-                        <td><a href="<?= 'show.php?id=' . $subject['id'] ?>">عرض</a></td>
+                        <td><?= h($subject['id']); ?></td>
+                        <td><?= h($subject['position']); ?></td>
+                        <td><?= $subject['visible'] == 1 ? 'نعم' : 'لا'; ?></td> <!-- because we've full control on this ('true, false) so there is no need to h()--> 
+                        <td><?= h($subject['menu_name']); ?></td>
+                        <td><a href="<?= url_for('staff/subjects/show.php?id=' . h(u($subject['id']))); ?>">عرض</a></td> <!-- make sure is urlemcode and it is html safe--> 
                         <td><a href="">تعديل</a></td>
                         <td><a href="">حذف</a></td>
                     </tr>

@@ -18,7 +18,7 @@ $subjects = [
 <div id="content" class="container">
     <div>
         <h1>العناوين</h1>
-        <a href="" class="">إنشئ عنوانا جديدا</a>
+        <a href="<?= url_for('staff/subjects/new.php')?>" class="">إنشئ عنوانا جديدا</a>
     </div>
     <div class="table-responsive-sm"> <!-- I will test it to know it's make table responsive or not -->
         <table class="table table-bordered table-hover">
@@ -42,7 +42,7 @@ $subjects = [
                         <td><?= $subject['visible'] == 1 ? 'نعم' : 'لا'; ?></td> <!-- because we've full control on this ('true, false) so there is no need to h()--> 
                         <td><?= h($subject['menu_name']); ?></td>
                         <td><a href="<?= url_for('staff/subjects/show.php?id=' . h(u($subject['id']))); ?>">عرض</a></td> <!-- make sure is urlemcode and it is html safe--> 
-                        <td><a href="">تعديل</a></td>
+                        <td><a href="<?= url_for('staff/subjects/edit.php?id=' . h(u($subject['id']))); ?>">تعديل</a></td>
                         <td><a href="">حذف</a></td>
                     </tr>
                 </tbody>

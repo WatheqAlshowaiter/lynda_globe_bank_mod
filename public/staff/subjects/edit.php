@@ -12,7 +12,7 @@ if ($test == '404') {
 }
 ?>
 
-<?php $page_title = "إنشاء عنوان"; ?>
+<?php $page_title = "عدل العنوان"; ?>
 
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
@@ -21,7 +21,7 @@ if ($test == '404') {
         <div class="col-8">
         <a class="" href="<?= url_for('/staff/subjects/index.php'); ?>">&laquo; العودة للقائمة </a>
 
-            <h2>إنشئ عنوانا جديدا</h2>
+            <h2>عدل العنوان</h2>
             <form action="" method="post">
                 <div class="form-group ">
                     <label for="menu_name">اسم العنوان</label>
@@ -40,7 +40,7 @@ if ($test == '404') {
                 </div>
 
                 <div class="form-group"> <br>
-                    <button type="submit" class="btn btn-primary"> إنشئ عنوانا جديدا</button>
+                    <button type="submit" class="btn btn-primary">عدل العنوان</button>
                 </div>
             </form>
 

@@ -1,8 +1,8 @@
 <?php
 
+ob_start(); // turn on output buffering
 
 // THIS IS FILE PATH (WITH INCLUDES)
-
 // dirname() return the father folder
 // __FILE__ returns the currnent file path 
 

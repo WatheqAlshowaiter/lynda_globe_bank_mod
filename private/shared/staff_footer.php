@@ -13,3 +13,10 @@
 </body>
 
 </html>
+
+
+
+<?php
+// CLOSING DB CONNECT HERE 
+db_disconnect($db);
+?>

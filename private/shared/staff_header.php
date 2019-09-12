@@ -8,6 +8,8 @@
   <link rel="stylesheet" media="all" href="<?= url_for('lib/bootstrap/css/bootstrap.min.css') ?>" />
   <link rel="stylesheet" media="all" href="<?= url_for('/lib/bootstrap/css/bootstrap_rtl.css') ?>" />
   <link rel="stylesheet" media="all" href="<?= url_for('/stylesheets/staff.css') ?>" />
+  <link rel="icon" href="<?= url_for('/images/bank-icon.png')?>">
+
 
 </head>
 

@@ -18,14 +18,14 @@ if ($test == '404') {
 
 <div id="content" class="container">
     <div class="row">
-        <div class="col-8">
+        <div class="col-6">
         <a class="" href="<?= url_for('/staff/subjects/index.php'); ?>">&laquo; العودة للقائمة </a>
 
             <h2>إنشئ عنوانا جديدا</h2>
-            <form action="" method="post">
-                <div class="form-group ">
+            <form action="create.php" method="post">
+                <div class="form-group">
                     <label for="menu_name">اسم العنوان</label>
-                    <input type="text" class="form-control" id="menu_name" autofocus>
+                    <input type="text" class="form-control" name ="menu_name" id ="menu_name" autofocus>
                 </div>
                 <div class="form-group ">
                     <label for="position">الموقع</label> &nbsp;

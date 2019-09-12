@@ -3,7 +3,7 @@
 
 <!-- staff header -->
 <!-- page titile -->
-<?php $page_title = "قائمة الموطفين"; ?> 
+<?php $page_title = "قائمة الموظفين"; ?> 
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 <div id="content" class="container">
     <div id="main-menu">

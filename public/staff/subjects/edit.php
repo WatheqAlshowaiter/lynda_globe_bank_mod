@@ -35,25 +35,26 @@ if (is_post_request()) {
 
 <div id="content" class="container">
     <div class="row">
-        <div class="col-8">
+        <div class="col-6">
             <a class="" href="<?= url_for('/staff/subjects/index.php'); ?>">&laquo; العودة للقائمة </a>
 
             <h2>عدل العنوان</h2>
             <form action="" method="post">
                 <div class="form-group ">
                     <label for="menu_name">اسم العنوان</label>
-                    <input type="text" class="form-control" name="menu_name" id="menu_name" autofocus value="<?= $menu_name ?>">
+                    <input type="text" class="form-control" name="menu_name" id="menu_name" autofocus value="<?= h($menu_name); ?>">
                 </div>
                 <div class="form-group ">
                     <label for="position">الموقع</label> &nbsp;
-                    <select name="position" id="position" class="custom-select col-2">
-                        <option value="1">1</option>
+                    <select name="position" id="position" class="custom-select col-md-2">
+                        <option value="1" <?= $position == "1"? "selected": ""?>>1</option>
+                        <!-- <option value="2" <?//= $position == "2"? "selected": ""?>>2</option> -->
                     </select>
                 </div>
                 <div class="form-check ">
                     <label for="visible" class="form-check-label">الظهور</label>
                     <input type="hidden" class="" name="visible" value="0"> &nbsp;
-                    <input type="checkbox" class="form-check-input position-static" name="visible" value="1" id="visible">
+                    <input type="checkbox" class="form-check-input position-static" name="visible" value="1" id="visible" <?= $visible=="1"?"checked": ""?>>
                 </div>
 
                 <div class="form-group"> <br>

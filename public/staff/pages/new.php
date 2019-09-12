@@ -25,19 +25,19 @@ if (is_post_request()) {
 
 ?>
 
-<?php $page_title = "إنشاء عنوان"; ?>
+<?php $page_title = "إنشاء صفحة"; ?>
 
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="content" class="container">
     <div class="row">
         <div class="col-6">
-            <a class="" href="<?= url_for('/staff/subjects/index.php'); ?>">&laquo; العودة للقائمة </a>
+            <a class="" href="<?= url_for('/staff/pages/index.php'); ?>">&laquo; العودة للقائمة </a>
 
-            <h2>إنشئ عنوانا جديدا</h2>
+            <h2>إنشئ صفحة جديدة</h2>
             <form action="" method="post">
                 <div class="form-group">
-                    <label for="menu_name">اسم العنوان</label>
+                    <label for="menu_name">اسم الصفحة</label>
                     <input type="text" class="form-control" name="menu_name" id="menu_name" autofocus value="<?= h($menu_name); ?>">
                 </div>
                 <div class="form-group ">
@@ -57,7 +57,7 @@ if (is_post_request()) {
                 </div>
 
                 <div class="form-group"> <br>
-                    <button type="submit" class="btn btn-primary"> إنشئ عنوانا جديدا</button>
+                    <button type="submit" class="btn btn-primary"> إنشئ صفحة جديدة</button>
                 </div>
             </form>
 

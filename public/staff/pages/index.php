@@ -1,15 +1,19 @@
 <?php require_once('../../../private/initialize.php'); ?>
 <!-- you shluod make this only with dots(../../) -->
 
+
+<?php
+$page_set = find_all_pages();
+?>
 <?php
 // like DB for develping 
 
-$pages = [
-    ['id' => '1', 'position' => '1', 'visible' => '1', 'menu_name' => 'عن البنك الدولي'],
-    ['id' => '2', 'position' => '2', 'visible' => '1', 'menu_name' => 'التاريخ'],
-    ['id' => '3', 'position' => '3', 'visible' => '0', 'menu_name' => 'القيادة'],
-    ['id' => '4', 'position' => '4', 'visible' => '0', 'menu_name' => 'تواصل معنا'],
-];
+// $pages = [
+//     ['id' => '1', 'position' => '1', 'visible' => '1', 'menu_name' => 'عن البنك الدولي'],
+//     ['id' => '2', 'position' => '2', 'visible' => '1', 'menu_name' => 'التاريخ'],
+//     ['id' => '3', 'position' => '3', 'visible' => '0', 'menu_name' => 'القيادة'],
+//     ['id' => '4', 'position' => '4', 'visible' => '0', 'menu_name' => 'تواصل معنا'],
+// ];
 ?>
 
 <!-- page title -->
@@ -18,14 +22,16 @@ $pages = [
 <div id="content" class="container">
     <div>
         <h1>الصفحات</h1>
-        <a href="<?= url_for('staff/pages/new.php')?>" class="">إنشئ صفحة جديدة</a>
+        <a href="<?= url_for('staff/pages/new.php') ?>" class="">إنشئ صفحة جديدة</a>
     </div>
-    <div class="table-responsive-sm"> <!-- I will test it to know it's make table responsive or not -->
+    <div class="table-responsive-sm">
+        <!-- I will test it to know it's make table responsive or not -->
         <table class="table table-bordered table-hover">
             <caption>جدول الصفحات</caption>
             <thead>
                 <tr class="table-primary">
                     <th>المعرّف</th>
+                    <th>معرف العنوان</th>
                     <th>الموقع</th>
                     <th>الظهور</th>
                     <th>الاسم</th>
@@ -34,20 +40,22 @@ $pages = [
                     <th>&nbsp;</th>
                 </tr>
             </thead>
-            <?php foreach ($pages as $page) : ?>
+            <?php while ( $page = $page_set->fetch(PDO::FETCH_ASSOC)) : ?>
                 <tbody>
                     <tr>
                         <td><?= h($page['id']); ?></td>
+                        <td><?= h($page['subject_id']); ?></td>
                         <td><?= h($page['position']); ?></td>
-                        <td><?= $page['visible'] == 1 ? 'نعم' : 'لا'; ?></td> <!-- because we've full control on this ('true, false) so there is no need to h()--> 
+                        <td><?= $page['visible'] == 1 ? 'نعم' : 'لا'; ?></td> <!-- because we've full control on this (true, false) so there is no need to h()-->
                         <td><?= h($page['menu_name']); ?></td>
-                        <td><a href="<?= url_for('staff/pages/show.php?id=' . h(u($page['id']))); ?>">عرض</a></td> <!-- make sure is urlemcode and it is html safe--> 
+                        <td><a href="<?= url_for('staff/pages/show.php?id=' . h(u($page['id']))); ?>">عرض</a></td> <!-- make sure is urlemcode and it is html safe-->
                         <td><a href="<?= url_for('staff/pages/edit.php?id=' . h(u($page['id']))); ?>">تعديل</a></td>
                         <td><a href="">حذف</a></td>
                     </tr>
                 </tbody>
-            <? endforeach; ?>
+            <? endwhile; ?>
         </table>
+        <?php $page_set->closeCursor(); // close this statement?> 
     </div>
 </div>
 

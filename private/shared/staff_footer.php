@@ -17,6 +17,6 @@
 
 
 <?php
-// CLOSING DB CONNECT HERE 
+// CLOSING DB CONNECT HERE  for ( PDO )
 db_disconnect($db);
 ?>

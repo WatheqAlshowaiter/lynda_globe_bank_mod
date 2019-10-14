@@ -13,3 +13,17 @@ h1{
     font-size: 30px; 
     font-weight: bold;
 }
+
+/* start subject > show.php  */
+.subject-show .subject-attributes{
+    margin: 20px 0; 
+}
+.subject-show .subject-attributes li span{
+    margin-left: 10px;
+    font-weight: bold;
+}
+.subject-show .subject-attributes li span::after{
+    content: ': ';
+}
+
+/* end subject > show.php  */

@@ -4,7 +4,7 @@
 // $id =  isset($_GET['id']) ? $_GET['id']: '1'; // before php 7.0
 $id = $_GET['id'] ?? '1'; // like previous one but for > PHP 7.0  
 
-$subject = fnd_subject_by_id($id);
+$subject = find_subject_by_id($id);
 
 
  ?>
@@ -21,7 +21,7 @@ $subject = fnd_subject_by_id($id);
         <ul class=""> 
             <li><span> اسم العنوان</span> <?php echo h($subject['menu_name']); ?></li>
             <li><span> الموقع</span> <?php echo h($subject['position']); ?></li>
-            <li><span>  الظهور</span> <?php echo $subject['visible'] == '1' ? 'true' : 'false'; ?></li> 
+            <li><span>  الظهور</span> <?php echo $subject['visible'] == '1' ? 'نعم' : 'لا'; ?></li> 
         </ul>
         </div>
 

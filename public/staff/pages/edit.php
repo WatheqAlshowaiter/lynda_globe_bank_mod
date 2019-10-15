@@ -8,23 +8,23 @@ if (!isset($_GET['id'])) {
     redirect_to(url_for('staff/pages/index.php'));
 }
 
-//initial values  
+//id from get request
 $id = $_GET['id'];
-$menu_name = '';
-$position = '';
-$visible = '';
 
-// if there a post requset (submitting the form)
-if (is_post_request()) {
-    $menu_name = $_POST['menu_name'] ?? '';
-    $position = $_POST['position'] ?? '';
-    $visible = $_POST['visible'] ?? '';
 
-    echo "Form parameters<br />";
-    echo "Menu name: " . $menu_name . "<br />";
-    echo "Position: " . $position . "<br />";
-    echo "Visible: " . $visible . "<br />";
-}
+// // if there a post requset (submitting the form)
+// if (is_post_request()) {
+//     $subject = []; // define an array then pass it as a parameter
+//     $subject['id'] = $id; 
+//     $subject['menu_name'] = $_POST['menu_name'] ?? '';
+//     $subject['position'] = $_POST['position'] ?? '';
+//     $subject['visible'] = $_POST['visible'] ?? '';
+
+//     $result = update_subject($subject); // pass an array as a parameter 
+//     redirect_to(url_for('/staff/subjects/show.php?id=' . $id));  
+// }else {
+//     $subject = find_subject_by_id($id); 
+// }
 
 
 ?>
@@ -42,7 +42,7 @@ if (is_post_request()) {
             <form action="" method="post">
                 <div class="form-group ">
                     <label for="menu_name">اسم الصفحة</label>
-                    <input type="text" class="form-control" name="menu_name" id="menu_name" autofocus value="<?= h($menu_name); ?>">
+                    <input type="text" class="form-control" name="menu_name" id="menu_name" autofocus value="<?= h($subject['menu_name']); ?>">
                 </div>
                 <div class="form-group ">
                     <label for="position">الموقع</label> &nbsp;

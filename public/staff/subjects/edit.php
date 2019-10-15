@@ -10,22 +10,21 @@ if (!isset($_GET['id'])) {
 
 //initial values  
 $id = $_GET['id'];
-$menu_name = '';
-$position = '';
-$visible = '';
 
 // if there a post requset (submitting the form)
 if (is_post_request()) {
-    $menu_name = $_POST['menu_name'] ?? '';
-    $position = $_POST['position'] ?? '';
-    $visible = $_POST['visible'] ?? '';
+    $subject = []; // define an array then pass it as a parameter
+    $subject['id'] = $id;
+    $subject['menu_name'] = $_POST['menu_name'] ?? '';
+    $subject['position'] = $_POST['position'] ?? '';
+    $subject['visible'] = $_POST['visible'] ?? '';
 
-    echo "Form parameters<br />";
-    echo "Menu name: " . $menu_name . "<br />";
-    echo "Position: " . $position . "<br />";
-    echo "Visible: " . $visible . "<br />";
+    $result = update_subject($subject); // pass an array as a parameter 
+    redirect_to(url_for('/staff/subjects/show.php?id=' . $id));
+} else {
+    $subject = find_subject_by_id($id);
+    $subject_count = count_table("subjects");
 }
-
 
 ?>
 
@@ -42,19 +41,26 @@ if (is_post_request()) {
             <form action="" method="post">
                 <div class="form-group ">
                     <label for="menu_name">اسم العنوان</label>
-                    <input type="text" class="form-control" name="menu_name" id="menu_name" autofocus value="<?= h($menu_name); ?>">
+                    <input type="text" class="form-control" name="menu_name" id="menu_name" autofocus value="<?= h($subject['menu_name']); ?>">
                 </div>
                 <div class="form-group ">
                     <label for="position">الموقع</label> &nbsp;
                     <select name="position" id="position" class="custom-select col-md-2">
-                        <option value="1" <?= $position == "1"? "selected": ""?>>1</option>
-                        <!-- <option value="2" <?//= $position == "2"? "selected": ""?>>2</option> -->
+                        <?php
+                        for ($i = 1; $i <= $subject_count; $i++) {
+                            echo "<option value=\"$i\" ";
+                            if ($subject['position'] == $i) {
+                                echo "selected";
+                            }
+                            echo ">{$i}</option>";
+                        }
+                        ?>
                     </select>
                 </div>
                 <div class="form-check ">
                     <label for="visible" class="form-check-label">الظهور</label>
                     <input type="hidden" class="" name="visible" value="0"> &nbsp;
-                    <input type="checkbox" class="form-check-input position-static" name="visible" value="1" id="visible" <?= $visible=="1"?"checked": ""?>>
+                    <input type="checkbox" class="form-check-input position-static" name="visible" value="1" id="visible" <?= $subject['visible'] == "1" ? "checked" : "" ?>>
                 </div>
 
                 <div class="form-group"> <br>

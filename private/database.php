@@ -8,6 +8,8 @@ function db_connect()
         // couldn't make them CONSTANTS instead of $variables (maybe this time works fine)
         $con = new PDO(DSN, DB_USER, DB_PASS);
         $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        
+
     } catch (Exception $ex) {
         exit("فشل الاتصال بقاعدة البيانات " . $ex->getMessage());
     }

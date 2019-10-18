@@ -38,7 +38,7 @@ $subject_set = find_all_subjects();
                         <td><?= h($subject['menu_name']); ?></td>
                         <td><a href="<?= url_for('staff/subjects/show.php?id=' . h(u($subject['id']))); ?>">عرض</a></td> <!-- make sure is urlemcode and it is html safe-->
                         <td><a href="<?= url_for('staff/subjects/edit.php?id=' . h(u($subject['id']))); ?>">تعديل</a></td>
-                        <td><a href="">حذف</a></td>
+                        <td><a href="<?= url_for("staff/subjects/delete.php?id=". h(u($subject["id"])))?>">حذف</a></td>
                     </tr>
                 </tbody>
             <? endwhile; ?>

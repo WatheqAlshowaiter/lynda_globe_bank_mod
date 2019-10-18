@@ -118,8 +118,33 @@ function count_table($subjects)
     $sql = "SELECT COUNT( id ) as 'count' from " . $subjects . " ";
     $result = $db->query($sql);
     confirm_result_set($result);
-    $result->execute();
-    $table_count = $result->fetch(PDO::FETCH_ASSOC);
+    $table_count = $result->fetchColumn();
     $result->closeCursor();
-    return $table_count['count'];
+    return $table_count;
+}
+
+
+/**
+ * to delet subjects by its id      
+ *
+ * @param int $id
+ * @return bool
+ */
+function delete_subject($id)
+{
+    global $db;
+
+    $sql  = "DELETE FROM subjects ";
+    $sql .= "WHERE id = '" . $id . "'";
+    $sql .= "LIMIT 1";
+
+    $result = $db->query($sql);
+
+    if ($result) {
+        return true;
+    } else {
+        echo "custom error: " . $db->error();
+        db_disconnect($db);
+        exit;
+    }
 }

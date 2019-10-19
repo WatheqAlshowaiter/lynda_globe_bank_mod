@@ -27,3 +27,27 @@ h1{
 }
 
 /* end subject > show.php  */
+
+
+/* start page > show.php  */
+.page-show .page-attributes{
+    margin: 20px 0; 
+}
+.page-show .page-attributes li span{
+    margin-left: 10px;
+    font-weight: bold;
+}
+.page-show .page-attributes li span::after{
+    content: ': ';
+}
+
+/* end page > show.php  */
+
+
+/* start pages > new.php */
+.new-page textarea{
+    resize: none;
+}
+/* end pages > new.php */
+
+

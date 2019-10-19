@@ -5,16 +5,6 @@
 <?php
 $page_set = find_all_pages();
 ?>
-<?php
-// like DB for develping 
-
-// $pages = [
-//     ['id' => '1', 'position' => '1', 'visible' => '1', 'menu_name' => 'عن البنك الدولي'],
-//     ['id' => '2', 'position' => '2', 'visible' => '1', 'menu_name' => 'التاريخ'],
-//     ['id' => '3', 'position' => '3', 'visible' => '0', 'menu_name' => 'القيادة'],
-//     ['id' => '4', 'position' => '4', 'visible' => '0', 'menu_name' => 'تواصل معنا'],
-// ];
-?>
 
 <!-- page title -->
 <?php $page_title = "قائمة الصفحات"; ?>
@@ -31,7 +21,7 @@ $page_set = find_all_pages();
             <thead>
                 <tr class="table-primary">
                     <th>المعرّف</th>
-                    <th>معرف العنوان</th>
+                    <th>العنوان</th>
                     <th>الموقع</th>
                     <th>الظهور</th>
                     <th>الاسم</th>
@@ -40,22 +30,24 @@ $page_set = find_all_pages();
                     <th>&nbsp;</th>
                 </tr>
             </thead>
-            <?php while ( $page = $page_set->fetch(PDO::FETCH_ASSOC)) : ?>
+            <?php while ($page = $page_set->fetch(PDO::FETCH_ASSOC)) : ?>
+            <?php $subject = find_subject_by_id($page['subject_id']); ?> 
                 <tbody>
                     <tr>
                         <td><?= h($page['id']); ?></td>
-                        <td><?= h($page['subject_id']); ?></td>
+                        <td><?= h($subject['menu_name']); ?></td>
                         <td><?= h($page['position']); ?></td>
                         <td><?= $page['visible'] == 1 ? 'نعم' : 'لا'; ?></td> <!-- because we've full control on this (true, false) so there is no need to h()-->
                         <td><?= h($page['menu_name']); ?></td>
                         <td><a href="<?= url_for('staff/pages/show.php?id=' . h(u($page['id']))); ?>">عرض</a></td> <!-- make sure is urlemcode and it is html safe-->
                         <td><a href="<?= url_for('staff/pages/edit.php?id=' . h(u($page['id']))); ?>">تعديل</a></td>
-                        <td><a href="">حذف</a></td>
+                        <td><a href="<?= url_for('staff/pages/delete.php?id=' . h(u($page['id']))); ?>">حذف</a></td>
                     </tr>
                 </tbody>
             <? endwhile; ?>
         </table>
-        <?php $page_set->closeCursor(); // close this statement?> 
+        <?php $page_set->closeCursor(); // close this statement
+        ?>
     </div>
 </div>
 

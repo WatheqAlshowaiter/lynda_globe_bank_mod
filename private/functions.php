@@ -54,3 +54,18 @@ function is_get_request()
 {
   return $_SERVER['REQUEST_METHOD'] == 'GET';
 }
+
+function display_errors($errors=array()) {
+  $output = '';
+  if(!empty($errors)) {
+    $output .= "<div class=\"errors\">";
+    $output .= "يجب تعديل هذه الأخطاء:";
+    $output .= "<ul>";
+    foreach($errors as $error) {
+      $output .= "<li>" . h($error) . "</li>";
+    }
+    $output .= "</ul>";
+    $output .= "</div>";
+  }
+  return $output;
+}

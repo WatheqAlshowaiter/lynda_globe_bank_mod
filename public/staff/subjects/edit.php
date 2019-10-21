@@ -20,11 +20,16 @@ if (is_post_request()) {
     $subject['visible'] = $_POST['visible'] ?? '';
 
     $result = update_subject($subject); // pass an array as a parameter 
-    redirect_to(url_for('/staff/subjects/show.php?id=' . $id));
+    if ( $result === true ){ // no errors
+        redirect_to(url_for('/staff/subjects/show.php?id=' . $id));
+    }else { // there is an error 
+        $errors  = $result; 
+    }
 } else {
     $subject = find_subject_by_id($id);
-    $subject_count = count_table("subjects");
+    
 }
+$subject_count = count_table("subjects");
 
 ?>
 
@@ -38,6 +43,7 @@ if (is_post_request()) {
             <a class="" href="<?= url_for('/staff/subjects/index.php'); ?>">&laquo; العودة للقائمة </a>
 
             <h2>عدل العنوان</h2>
+            <?php echo display_errors($errors); ?>
             <form action="" method="post">
                 <div class="form-group ">
                     <label for="menu_name">اسم العنوان</label>

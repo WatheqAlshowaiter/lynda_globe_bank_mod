@@ -21,12 +21,17 @@ if (is_post_request()) {
     $page['content'] = $_POST['content'] ?? '';
 
     $result  = update_page($page);
-    redirect_to(url_for('/staff/pages/show.php?id=' . $id));
+    if ( $result === true){
+        redirect_to(url_for('/staff/pages/show.php?id=' . $id));
+    }else {
+        $errors = $result; 
+    }
 } else {
-    $page = [];
     $page = find_page_by_id($id);
-    $page_count = count_table("pages");
 }
+
+$page_count = count_table("pages");
+
 ?>
 
 <?php $page_title = "عدل الصفحة"; ?>
@@ -39,6 +44,7 @@ if (is_post_request()) {
             <a class="" href="<?= url_for('/staff/pages/index.php'); ?>">&laquo; العودة للقائمة </a>
 
             <h2>عدّل الصفحة</h2>
+            <?php echo display_errors($errors);?> 
             <form action="" method="post">
                 <div class="form-group">
                     <label for="subject_id">العنوان</label>
@@ -88,7 +94,9 @@ if (is_post_request()) {
 
                 <div class="form-group"> <br>
                     <button type="submit" class="btn btn-primary"> عدل هذه الصفحة</button>
+                    <br>  <br>
                 </div>
+                <br>  <br>
             </form>
 
 

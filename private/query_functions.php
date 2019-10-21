@@ -73,6 +73,13 @@ function insert_subject($subject)
 {
     global $db;
 
+    // here we are validating because it will be all the time 
+    // and before sql stamtement
+    $errors = validate_subject($subject);
+    if ($errors) {
+        return $errors;
+    }
+
     $sql   =  "INSERT INTO subjects ";
     $sql  .= " (menu_name, position, visible) Values ( ";
     $sql  .= "'" . $subject['menu_name'] . "', ";
@@ -100,6 +107,13 @@ function insert_subject($subject)
 function update_subject($subject)
 {
     global $db;
+
+    // here we are validating because it will be all the time 
+    // and before sql stamtement
+    $errors = validate_subject($subject);
+    if ($errors) {
+        return $errors;
+    }
 
     $sql = "UPDATE subjects SET ";
     $sql .= "menu_name = '" . $subject['menu_name'] . "', ";
@@ -199,6 +213,12 @@ function insert_page($page)
 {
     global $db;
 
+    // ensure there is on errors 
+    $errors = validate_page($page);
+    if ($errors) {
+        return $errors;
+    }
+
     $sql   =  "INSERT INTO pages ";
     $sql  .= " (subject_id, menu_name, position, visible, content) Values ( ";
     $sql  .= "'" . $page['subject_id'] . "', ";
@@ -228,6 +248,11 @@ function update_page($page)
 {
     global $db;
 
+    $errors = validate_page($page);
+    if ($errors) {
+        return $errors;
+    }
+
     $sql = "UPDATE pages SET ";
     $sql .= "subject_id= '" . $page['subject_id'] . "', ";
     $sql .= "menu_name = '" . $page['menu_name'] . "', ";
@@ -236,7 +261,7 @@ function update_page($page)
     $sql .= "content = '" . $page['content'] . "' ";
     $sql .= "WHERE id = '" . $page['id'] . "' ";
     $sql .= "LIMIT 1";
-// echo $sql; exit; 
+    // echo $sql; exit; 
     $result = $db->query($sql);
 
     if ($result) {
@@ -271,4 +296,85 @@ function delete_page($id)
         db_disconnect($db);
         exit;
     }
+}
+
+
+/******************************************************
+ * Validation Functions
+ ******************************************************/
+
+
+function validate_subject($subject)
+{
+
+    $errors = [];
+    // we need to validate every form input 
+
+    // menu name (not blank, geater than 2 and smaller than 255 )
+    if (!has_presence($subject['menu_name'])) {
+        $errors[] = "يجب ألا يكون اسم العنوان فارغا";
+    } elseif (!has_length($subject['menu_name'], ["min" => 2, "max" => 255])) {
+        $errors[] = "يجب أن يكون طول النص أكبر من حرفين وأقل من ٢٥٥ حرفا";
+    }
+
+    // position (greater than 0, less or equal than 999)
+
+    $position_int = (int) $subject['position']; // to insure it is an integer
+    if ($position_int < 1) {
+        $errors[] = "لا يمكن أن يكون موقع العدد أقل من الرقم ١";
+    } elseif ($position_int > 999) {
+        $errors[] = "لا يمكن أن يكون موقع العدد أكبر من الرقم ٩٩٩";
+    }
+
+    // visible ( contains only "1" or "0" )
+    $visible_str = (string) $subject['visible']; // cast to string 
+    if (!has_inclusion_of($visible_str, ["1", "0"])) {
+        $errors[] = "يجب أن تكون قيمة الظهور نعم أو لا فقط";
+    }
+
+    return $errors;
+}
+
+function validate_page($page)
+{
+    $errors  = [];
+
+    //subject id ( not null )
+    if (!has_presence($page['subject_id'])) {
+        $errors[] = "يجب أن توجد قيمة للعنوان المرتبط بهذه الصفحة";
+    }
+
+    // menu name ( not blank, min >=2, max <= 255 ) And unique
+    if (!has_presence($page['menu_name'])) {
+        $errors[] = "يجب إلا يكون  عنوان الصفحة فارغا";
+    } elseif (!has_length($page["menu_name"], ["min" => 2, "max" => 255])) {
+        $errors[] = "يجب أن يكون طول النص أكبر من حرفين وأقل من ٢٥٥ حرفا";
+    }
+    
+    // there some troubles on checking uniqeness 
+    // maybe I will solve it later 
+    
+    // $current_id  = (int)$page['id'] ?? '0';
+    // if (!has_unique_page_menu_name($page['menu_name'], $current_id)) {
+    //     $errors[] = "يجب أن يكون اسم العنونا فريدا غير مكررا";
+    // }
+
+    // position 
+    $position_int = (int) $page['position'];
+    if ($position_int < 1) {
+        $errors[] = "لا يمكن أن يكون موقع العدد أقل من الرقم ١";
+    } elseif ($position_int > 999) {
+        $errors[] = "لا يمكن أن يكون موقع العدد أكبر من الرقم ٩٩٩";
+    }
+    // visible 
+    $visible_str = (string) $page["visible"];
+    if (!has_inclusion_of($visible_str, ["0", "1"])) {
+        $errors[] = "يجب أن تكون قيمة الظهور نعم أو لا فقط";
+    }
+    // content 
+    if (!has_presence($page['content'])) {
+        $errors[] = "المحتوى يجب ألا يكون فارغا";
+    }
+
+    return $errors;
 }

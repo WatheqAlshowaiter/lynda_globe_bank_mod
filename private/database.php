@@ -38,4 +38,5 @@ function confirm_result_set($result_set)
         exit("<p style='color:red'> !فشل أمر الاسترجاع من قاعدة البيانات. تحقق من أمر الاسترجاع الذي كتبته</p>");
     }
 }
+
 ?> 

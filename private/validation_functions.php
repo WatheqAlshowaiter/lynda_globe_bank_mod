@@ -106,8 +106,8 @@
     global $db;
 
     $sql = "SELECT * FROM pages ";
-    $sql .= "WHERE menu_name='" . $menu_name . "' ";
-    $sql .= "AND id != '" . $current_id . "'";
+    $sql .= "WHERE menu_name=" . $db->quote($menu_name) . " ";
+    $sql .= "AND id != " . $db->quote($current_id) . "";
 
     // $page_set = mysqli_query($db, $sql);
     $page_set = $db->query($sql); 

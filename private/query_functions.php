@@ -51,7 +51,7 @@ function find_subject_by_id($id)
     global $db;
 
     $sql  = "SELECT * FROM subjects ";
-    $sql .= "WHERE id = '" . $id . "'"; // containing 'id' with single quotes is for seacurity 
+    $sql .= "WHERE id = " . $db->quote($id) . ""; // containing 'id' with single quotes is for seacurity 
     $result = $db->query($sql);
     confirm_result_set($result);
     $result->execute();
@@ -82,9 +82,9 @@ function insert_subject($subject)
 
     $sql   =  "INSERT INTO subjects ";
     $sql  .= " (menu_name, position, visible) Values ( ";
-    $sql  .= "'" . $subject['menu_name'] . "', ";
-    $sql  .= "'" . $subject['position'] . "', ";
-    $sql  .= "'" . $subject['visible'] . "' ";
+    $sql  .= "" . $db->quote($subject['menu_name']) . ", ";
+    $sql  .= "" . $db->quote($subject['position']) . ", ";
+    $sql  .= "" . $db->quote($subject['visible']) . " ";
     $sql  .= ")";
 
 
@@ -116,10 +116,10 @@ function update_subject($subject)
     }
 
     $sql = "UPDATE subjects SET ";
-    $sql .= "menu_name = '" . $subject['menu_name'] . "', ";
-    $sql .= "position = '" . $subject['position'] . "', ";
-    $sql .= "visible = '" . $subject['visible'] . "' ";
-    $sql .= "WHERE id = '" . $subject['id'] . "' ";
+    $sql .= "menu_name = " . $db->quote($subject['menu_name']) . ", ";
+    $sql .= "position = " . $db->quote($subject['position']) . ", ";
+    $sql .= "visible = " . $db->quote($subject['visible']) . " ";
+    $sql .= "WHERE id = " . $db->quote($subject['id']) . " ";
     $sql .= "LIMIT 1";
 
     $result = $db->query($sql);
@@ -133,7 +133,6 @@ function update_subject($subject)
     }
 }
 
-
 /**
  * to delet subjects by its id      
  *
@@ -145,7 +144,7 @@ function delete_subject($id)
     global $db;
 
     $sql  = "DELETE FROM subjects ";
-    $sql .= "WHERE id = '" . $id . "'";
+    $sql .= "WHERE id = " . $db->quote($id) . "";
     $sql .= "LIMIT 1";
 
     $result = $db->query($sql);
@@ -192,7 +191,7 @@ function find_page_by_id($id)
     global $db;
 
     $sql  = "SELECT * FROM pages ";
-    $sql .= "WHERE id = '" . $id . "'";
+    $sql .= "WHERE id = " . $db->quote($id) . "";
 
     $result = $db->query($sql);
     confirm_result_set($result);
@@ -221,11 +220,11 @@ function insert_page($page)
 
     $sql   =  "INSERT INTO pages ";
     $sql  .= " (subject_id, menu_name, position, visible, content) Values ( ";
-    $sql  .= "'" . $page['subject_id'] . "', ";
-    $sql  .= "'" . $page['menu_name'] . "', ";
-    $sql  .= "'" . $page['position'] . "', ";
-    $sql  .= "'" . $page['visible'] . "', ";
-    $sql  .= "'" . $page['content'] . "' ";
+    $sql  .= "" . $db->quote($page['subject_id']) . ", ";
+    $sql  .= "" . $db->quote($page['menu_name']) . ", ";
+    $sql  .= "" . $db->quote($page['position']) . ", ";
+    $sql  .= "" . $db->quote($page['visible']) . ", ";
+    $sql  .= "" . $db->quote($page['content']) . " ";
     $sql  .= ")";
 
     $result = $db->query($sql);
@@ -254,12 +253,12 @@ function update_page($page)
     }
 
     $sql = "UPDATE pages SET ";
-    $sql .= "subject_id= '" . $page['subject_id'] . "', ";
-    $sql .= "menu_name = '" . $page['menu_name'] . "', ";
-    $sql .= "position = '" . $page['position'] . "', ";
-    $sql .= "visible = '" . $page['visible'] . "', ";
-    $sql .= "content = '" . $page['content'] . "' ";
-    $sql .= "WHERE id = '" . $page['id'] . "' ";
+    $sql .= "subject_id= " . $db->quote($page['subject_id']) . ", ";
+    $sql .= "menu_name = " . $db->quote($page['menu_name']) . ", ";
+    $sql .= "position = " . $db->quote($page['position']) . ", ";
+    $sql .= "visible = " . $db->quote($page['visible']) . ", ";
+    $sql .= "content = " . $db->quote($page['content']) . " ";
+    $sql .= "WHERE id = " . $db->quote($page['id']) . " ";
     $sql .= "LIMIT 1";
     // echo $sql; exit; 
     $result = $db->query($sql);
@@ -284,7 +283,7 @@ function delete_page($id)
     global $db;
 
     $sql  = "DELETE FROM pages ";
-    $sql .= "WHERE id = '" . $id . "'";
+    $sql .= "WHERE id = " . $db->quote($id) . "";
     $sql .= "LIMIT 1";
 
     $result = $db->query($sql);
@@ -350,10 +349,10 @@ function validate_page($page)
     } elseif (!has_length($page["menu_name"], ["min" => 2, "max" => 255])) {
         $errors[] = "يجب أن يكون طول النص أكبر من حرفين وأقل من ٢٥٥ حرفا";
     }
-    
+
     // there some troubles on checking uniqeness 
     // maybe I will solve it later 
-    
+
     // $current_id  = (int)$page['id'] ?? '0';
     // if (!has_unique_page_menu_name($page['menu_name'], $current_id)) {
     //     $errors[] = "يجب أن يكون اسم العنونا فريدا غير مكررا";

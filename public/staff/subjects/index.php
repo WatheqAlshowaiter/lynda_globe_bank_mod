@@ -20,7 +20,7 @@ $subject_set = find_all_subjects();
             <caption> جدول العناوين</caption>
             <thead>
                 <tr class="table-primary">
-                    <th>المعرّف</th>
+                      <th>المعرّف</th>
                     <th>الموقع</th>
                     <th>الظهور</th>
                     <th>الاسم</th>

@@ -297,6 +297,27 @@ function delete_page($id)
     }
 }
 
+/**
+ * get the pages that associate with each subject
+ *
+ * @param int $subject_id
+ * @return result set
+ */
+function find_pages_by_subject_id($subject_id)
+{
+    global $db;
+
+    $sql  = "SELECT * FROM pages ";
+    $sql .= "WHERE subject_id =" . $db->quote($subject_id) . " ";
+    $sql .= "ORDER BY position ASC";
+
+    $result = $db->query($sql);
+    confirm_result_set($result);
+    $result->execute();
+    return $result; // result set
+}
+
+
 
 /******************************************************
  * Validation Functions
@@ -313,7 +334,7 @@ function validate_subject($subject)
     if (!has_presence($subject['menu_name'])) {
         $errors[] = "يجب ألا يكون اسم العنوان فارغا";
     } elseif (!has_length($subject['menu_name'], ["min" => 2, "max" => 255])) {
-        $errors[] = "يجب أن يكون طول النص أكبر من حرفين وأقل من ٢٥٥ حرفا";
+        $errors[] = "يجب أن يكون طول النص أكبر من حرف واحد وأقل من ٢٥٥ حرفا";
     }
 
     // position (greater than 0, less or equal than 999)

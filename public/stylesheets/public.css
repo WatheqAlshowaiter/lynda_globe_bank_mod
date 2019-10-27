@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css?family=Tajawal&display=swap');
+/* for making the font beutiful */
+
+html, body {
+    /* it is important to add (body) to change the font */
+    font-family: 'Tajawal', sans-serif;
+}
+
+h1 {
+    font-weight: bold;
+}
+
+.main .page {
+    background: #a6d9e8;
+    height: 720px ;
+
+ 
+}
+
+.main .content {
+   /* for later use */
+}
+
+
+/* Start navigatio */
+.main .navigation{
+    list-style: none;
+    margin-top: 10px;
+}
+.main .navigation a {
+    color: black;
+    font-weight: bold;
+}
+
+.main .navigation .selected >a {
+    color: #db61f1;
+}
+
+/* End navigatio */

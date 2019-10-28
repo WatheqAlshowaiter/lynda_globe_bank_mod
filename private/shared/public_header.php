@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>البنك الدولي - <?php echo isset($page_title) ? h($page_title) : 'الصفحة الرئيسية'; ?> </title>
+    <title>
+        البنك الدولي - <?php echo isset($page_title) ? h($page_title) : 'الرئيسية'; ?> 
+        <?php if( isset($preview)and $preview ){echo "[للعرض فقط]";} ?> 
+</title>
     <link rel="stylesheet" media="all" href="<?= url_for('lib/bootstrap/css/bootstrap.min.css') ?>" />
     <link rel="stylesheet" media="all" href="<?= url_for('/lib/bootstrap/css/bootstrap_rtl.css') ?>" />
     <link rel="stylesheet" media="all" href="<?= url_for("/stylesheets/public.css") ?>">

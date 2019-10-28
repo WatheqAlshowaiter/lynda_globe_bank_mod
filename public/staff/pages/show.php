@@ -1,5 +1,5 @@
 <?php require_once('../../../private/initialize.php'); ?>
-<?php 
+<?php
 if (!isset($_GET['id'])) {
     redirect_to(url_for("staff/pages/index.php"));
 }
@@ -9,7 +9,7 @@ if (!isset($_GET['id'])) {
 
 // $id =  isset($_GET['id']) ? $_GET['id']: '1'; // before php 7.0
 $id = $_GET['id'] ?? '1'; // like previous one but for > PHP 7.0  
-$page  = find_page_by_id($id); 
+$page  = find_page_by_id($id);
 
 ?>
 <?php $page_title = "عرض الصفحة"; ?>
@@ -20,6 +20,7 @@ $page  = find_page_by_id($id);
     <div>
         <a class="" href="<?= url_for('/staff/pages/index.php'); ?>">&laquo; العودة للقائمة </a>
         <h1>الصفحة: <?= h($page['menu_name']) ?></h1>
+        <a href="<?= url_for('/index.php?id=' . h(u($page["id"])) . "&preview=true"); ?>" target="_blank"> إظهار على الصفحة الرئيسية &raquo;</a>
 
         <div class="page-attributes">
             <?php $subject = find_subject_by_id($page['subject_id']); ?>

@@ -31,11 +31,16 @@ function count_table($table_name)
  *
  * @return array
  */
-function find_all_subjects()
+function find_all_subjects($option = [])
 {
     global $db;
 
+    $visible = $option['visible'] ?? false;
+
     $sql  = "SELECT * from subjects "; // importam to make a SPACE
+    if ($visible) {
+        $sql .= "WHERE visible = true ";
+    }
     $sql .= "ORDER BY position ASC";
 
     // echo $sql; // just for troublehooting 
@@ -46,12 +51,17 @@ function find_all_subjects()
 }
 
 
-function find_subject_by_id($id)
+function find_subject_by_id($id, $option = [])
 {
     global $db;
 
+    $visible = $option['visible'] ?? false;
+
     $sql  = "SELECT * FROM subjects ";
-    $sql .= "WHERE id = " . $db->quote($id) . ""; // containing 'id' with single quotes is for seacurity 
+    $sql .= "WHERE id = " . $db->quote($id) . " "; // containing 'id' with single quotes is for seacurity 
+    if ($visible) {
+        $sql .= "AND visible = true ";
+    }
     $result = $db->query($sql);
     confirm_result_set($result);
     $result->execute();
@@ -186,12 +196,17 @@ function find_all_pages()
  * @param int $id
  * @return array $page
  */
-function find_page_by_id($id)
+function find_page_by_id($id, $option=[])
 {
     global $db;
 
+    $visible = $option['visible'] ?? false;
+
     $sql  = "SELECT * FROM pages ";
-    $sql .= "WHERE id = " . $db->quote($id) . "";
+    $sql .= "WHERE id = " . $db->quote($id) . " ";
+    if ($visible){
+        $sql .= "AND visible = true";
+    }
 
     $result = $db->query($sql);
     confirm_result_set($result);
@@ -303,14 +318,19 @@ function delete_page($id)
  * @param int $subject_id
  * @return result set
  */
-function find_pages_by_subject_id($subject_id)
+function find_pages_by_subject_id($subject_id, $option = [])
 {
     global $db;
 
+    $visible = $option['visible'] ?? false;
+
     $sql  = "SELECT * FROM pages ";
     $sql .= "WHERE subject_id =" . $db->quote($subject_id) . " ";
+    if ($visible) {
+        $sql .= "AND visible = true ";
+    }
     $sql .= "ORDER BY position ASC";
-
+  
     $result = $db->query($sql);
     confirm_result_set($result);
     $result->execute();

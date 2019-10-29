@@ -15,6 +15,7 @@ if (is_post_request()) {
     $result = insert_page($page);
     if ($result === true) {
         $new_id = $db->lastInsertId();
+        $_SESSION['message'] = 'أنشئت الصفحة بنجاح';
         redirect_to(url_for("/staff/pages/show.php?id=" . $new_id));
     }else { 
         $errors = $result;

@@ -69,3 +69,19 @@ function display_errors($errors=array()) {
   }
   return $output;
 }
+
+function get_and_clear_session_meg(){
+  if (isset($_SESSION['message']) and $_SESSION['message'] !=""){
+    $msg = $_SESSION['message'];
+  }
+  unset($_SESSION['message']);
+  return $msg; 
+}
+
+function display_session_msg(){
+$msg = get_and_clear_session_meg(); 
+  if(has_presence($msg)){
+    return "<p class='text-center'>$msg</p>";
+  }
+}
+

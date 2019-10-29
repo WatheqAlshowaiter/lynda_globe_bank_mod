@@ -14,6 +14,7 @@ $id = $_GET['id'];
 // if there a post requset (submitting the form)
 if (is_post_request()) {
     $result = delete_subject($id);
+    $_SESSION['message'] = 'حذف الموضوع بنجاح';
     redirect_to(url_for("staff/subjects/index.php"));
 } else {
     $subject = find_subject_by_id($id);

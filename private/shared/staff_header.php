@@ -25,5 +25,10 @@
   </header>
 
   <div class="text-center py-4" id="staff_menu">
-    <a href="<?= url_for('staff/index.php'); ?>">القائمة الرئيسية</a> <!-- ?= is shortcut for echo. php 7 -->
+    <a href="<?= url_for('staff/index.php'); ?>">القائمة الرئيسية</a> | <!-- ?= is shortcut for echo. php 7 -->
+    <span>المستخدم: <?= $_SESSION["username"]??"";?></span> |
+    <a href="<?= url_for('staff/logout.php'); ?>">تسجيل الخروج</a>
+    
   </div>
+
+  <?= display_session_msg(); ?>

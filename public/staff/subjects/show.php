@@ -6,7 +6,6 @@ $id = $_GET['id'] ?? '1'; // like previous one but for > PHP 7.0
 
 $subject = find_subject_by_id($id);
 
-
  ?>
 <?php $page_title = "عرض العنوان"; ?>
 

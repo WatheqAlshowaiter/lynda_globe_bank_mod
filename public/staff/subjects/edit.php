@@ -21,6 +21,7 @@ if (is_post_request()) {
 
     $result = update_subject($subject); // pass an array as a parameter 
     if ( $result === true ){ // no errors
+        $_SESSION['message'] = 'عدل الموضوع بنجاح';
         redirect_to(url_for('/staff/subjects/show.php?id=' . $id));
     }else { // there is an error 
         $errors  = $result; 

@@ -13,6 +13,7 @@ if (is_post_request()) {
     $result = insert_subject($subject);
     if ($result === true) {
         $new_id = $db->lastInsertId(); // Returns the ID of the last inserted row (Native function)
+        $_SESSION['message'] = 'أنشئ الموضوع بنجاح';
         redirect_to(url_for("/staff/subjects/show.php?id=" . $new_id));
     } else {
         $errors = $result;

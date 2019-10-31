@@ -196,7 +196,7 @@ function find_all_pages()
  * @param int $id
  * @return array $page
  */
-function find_page_by_id($id, $option=[])
+function find_page_by_id($id, $option = [])
 {
     global $db;
 
@@ -204,7 +204,7 @@ function find_page_by_id($id, $option=[])
 
     $sql  = "SELECT * FROM pages ";
     $sql .= "WHERE id = " . $db->quote($id) . " ";
-    if ($visible){
+    if ($visible) {
         $sql .= "AND visible = true";
     }
 
@@ -330,7 +330,7 @@ function find_pages_by_subject_id($subject_id, $option = [])
         $sql .= "AND visible = true ";
     }
     $sql .= "ORDER BY position ASC";
-  
+
     $result = $db->query($sql);
     confirm_result_set($result);
     $result->execute();
@@ -394,10 +394,10 @@ function validate_page($page)
     // there some troubles on checking uniqeness 
     // maybe I will solve it later 
 
-    // $current_id  = (int)$page['id'] ?? '0';
-    // if (!has_unique_page_menu_name($page['menu_name'], $current_id)) {
-    //     $errors[] = "يجب أن يكون اسم العنونا فريدا غير مكررا";
-    // }
+    $current_id  = (int) $page['id'] ?? '0';
+    if (!has_unique_page_menu_name($page['menu_name'], $current_id)) {
+        $errors[] = "يجب أن يكون اسم العنونا فريدا غير مكررا";
+    }
 
     // position 
     $position_int = (int) $page['position'];
@@ -417,4 +417,186 @@ function validate_page($page)
     }
 
     return $errors;
+}
+
+/******************************************************
+ * Admin Functions
+ ******************************************************/
+
+function find_all_admins()
+{
+    global $db;
+
+    $sql  = "SELECT * from admins ";
+    $sql .= "ORDER by last_name ASC, first_name ASC";
+    $result = $db->query($sql);
+    confirm_result_set($result);
+    return $result;
+}
+
+
+function find_admin_by_id($id)
+{
+    global $db;
+
+    $sql  = "SELECT * FROM admins ";
+    $sql .= "WHERE id = " . $db->quote($id) . " ";
+    $sql .= "LIMIT 1";
+
+    $result = $db->query($sql);
+    confirm_result_set($result);
+    $result->execute();
+    $admin = $result->fetch(PDO::FETCH_ASSOC);
+    $result->closeCursor();
+    return $admin;
+}
+
+
+function insert_admin($admin)
+{
+    global $db;
+
+    $errors = validate_admin($admin);
+    if (!empty($errors)) {
+        return $errors;
+    }
+
+    $hashed_password = $admin['password']; // we will do hasing
+
+    $sql = "INSERT INTO admins ";
+    $sql .= "(first_name, last_name, email, username, hashed_password) ";
+    $sql .= "VALUES (";
+    $sql .= "" . $db->quote($admin['first_name']) . ",";
+    $sql .= "" . $db->quote($admin['last_name']) . ",";
+    $sql .= "" . $db->quote($admin['email']) . ", ";
+    $sql .= "" . $db->quote($admin['username']) . ", ";
+    $sql .= "" . $db->quote($hashed_password) . " ";
+    $sql .= ")";
+
+    $result = $db->query($sql);
+    $result->execute();
+    // For INSERT statements, $result is true/false
+    if ($result) {
+        return true;
+    } else {
+        // INSERT failed
+        echo "custom error: " . $db->error();
+        db_disconnect($db);
+        exit;
+    }
+}
+
+function validate_admin($admin)
+{
+    $errors = [];
+
+    // first name (not blank betwen 2 - 255 chars)
+    if (is_blank($admin['first_name'])) {
+        $errors[] = "First name cannot be blank";
+    } elseif (!has_length($admin['first_name'], ['min' => 2, 'max' => 255])) {
+        $errors[] = "First name must be between 2 and 255 characters.";
+    }
+
+    // last name (not blank betwen 2 - 255 chars)
+    if (is_blank($admin['last_name'])) {
+        $errors[] = "Last name cannot be blank";
+    } elseif (!has_length($admin['last_name'], ['min' => 2, 'max' => 255])) {
+        $errors[] = "Last name must be between 2 and 255 characters.";
+    }
+    // email (not blank, not greater than 255 chars, valid_email)
+    if (is_blank($admin['email'])) {
+        $errors[] = "Email cannot be blank";
+    } else if (!has_length($admin['email'], ['max' => 255])) {
+        $errors[] = "Email must be less than 255 characters";
+    } elseif (!has_valid_email_format($admin['email'])) {
+        $errors[] = "Email must be in a valid format";
+    }
+
+    // username (not blank, <=8 and <=255, unique)
+    if (is_blank($admin['username'])) {
+        $errors[] = "Username cannot be blank";
+    } elseif (!has_length($admin['username'], ['min' => 8, 'max' => 255])) {
+        $errors[] = "Username must be between 8 and 255 characters.";
+    } elseif (!has_unique_username($admin['username'], $admin['id'] ?? 0)) {
+        $errors[] = "Username not allowed. Try another.";
+    }
+    // password (not blank, (12<=pass), at least one UPPERCASR, one lowercase, one number)
+    if (is_blank($admin['password'])) {
+        $errors[] = "Password cannot be blank";
+    } elseif (!has_length($admin['password'], ['min' => 12])) {
+        $errors[] = "Password must contain 12 or more characters";
+    } elseif (!preg_match('/[A-Z]/', $admin['password'])) {
+        $errors[] = "Password must contain at least 1 UPPERCASE letter";
+    } else if (!preg_match('/[a-z]/', $admin['password'])) {
+        $errors[] = "Password must contain at least 1 lowercase letter";
+    } else if (!preg_match('/[0-9]/', $admin['password'])) {
+        $errors[] = "Password must contain at least 1 number";
+    } elseif (!preg_match('/[^A-Za-z0-9\s]/', $admin['password'])) {
+        $errors[] = "Password must contain at least 1 symbol";
+    }
+
+
+    // confirm password (not blank, match password)
+    if (is_blank($admin['confirm_password'])) {
+        $errors[] = "Confirm password cannot be blank.";
+    } elseif ($admin['password'] !== $admin['confirm_password']) {
+        $errors[] = "Password and confirm password must match.";
+    }
+
+    return $errors;
+}
+
+
+function update_admin($admin)
+{
+    global $db;
+
+    $errors = validate_admin($admin);
+    if (!empty($errors)) {
+        return $errors;
+    }
+
+    $hashed_password = $admin['password'];
+
+    $sql = "UPDATE admins SET ";
+    $sql .= "first_name=" . $db->quote($admin['first_name'])  . ", ";
+    $sql .= "last_name=" . $db->quote($admin['last_name'])  . ", ";
+    $sql .= "email=" . $db->quote($admin['email'])  . ", ";
+    $sql .= "hashed_password=" . $db->quote($hashed_password) . ", ";
+    $sql .= "username=" . $db->quote($admin['username']) . " ";
+    $sql .= "WHERE id=" . $db->quote($admin['id'])  . " ";
+    $sql .= "LIMIT 1";
+    $result = $db->query($sql);
+    $result->execute();
+
+    // For UPDATE statements, $result is true/false
+    if ($result) {
+        return true;
+    } else {
+        // UPDATE failed
+        echo "custom error: " . $db->error();
+        db_disconnect($db);
+        exit;
+    }
+}
+
+function delete_admin($admin)
+{
+    global $db;
+
+    $sql = "DELETE FROM admins ";
+    $sql .= "WHERE id=" . $db->quote($admin['id']) . " ";
+    $sql .= "LIMIT 1;";
+    $result = $db->query($sql);
+    $result->execute();
+
+    // For DELETE statements, $result is true/false
+    if ($result) {
+        return true;
+    } else {
+        // DELETE failed
+        echo "custom error: " . $db->error();
+        db_disconnect($db);
+        exit;
+    }
 }

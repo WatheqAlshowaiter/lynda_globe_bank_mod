@@ -105,22 +105,35 @@
     function has_unique_page_menu_name($menu_name, $current_id="0") {
     global $db;
 
-    $sql = "SELECT * FROM pages ";
+    $sql = "SELECT COUNT(*) FROM pages ";
     $sql .= "WHERE menu_name=" . $db->quote($menu_name) . " ";
     $sql .= "AND id != " . $db->quote($current_id) . "";
 
     // $page_set = mysqli_query($db, $sql);
     $page_set = $db->query($sql); 
-    // var_dump($page_set); 
-    // $page_count = mysqli_num_rows($page_set);
-    // confirm_result_set($page_set);
-    
-    
-     $page_count = $page_set->fetchColumn(); 
-  
-    //  var_dump($page_count); 
-    // mysqli_free_result($page_set);
+    $page_set->execute();
+    $page_count = $page_set->fetchColumn();
     $page_set->closeCursor(); 
 
-    return $page_count === 0;
+    return $page_count == 0;
+  }
+
+
+  // has_unique_username('johnqpublic')
+  // * Validates uniqueness of admins.username
+  // * For new records, provide only the username.
+  // * For existing records, provide current ID as second argument
+  //   has_unique_username('johnqpublic', 4)
+  function has_unique_username($username, $current_id="0") {
+    global $db;
+
+    $sql = "SELECT COUNT(*) FROM admins ";
+    $sql .= "WHERE username=" .$db->quote($username) . " ";
+    $sql .= "AND id != " .$db->quote($current_id). " ";
+    $result = $db->query($sql);
+    $result->execute();
+    $admin_count = $result->fetchColumn();
+    $result->closeCursor();
+
+    return ($admin_count == 0);
   }

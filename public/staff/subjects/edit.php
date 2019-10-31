@@ -1,6 +1,8 @@
 <?php
 require_once('../../../private/initialize.php');
 ?>
+<?php require_login(); ?>
+
 
 <?php
 // first step to check get request or redirect 

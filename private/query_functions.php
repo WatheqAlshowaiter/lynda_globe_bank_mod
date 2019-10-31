@@ -451,6 +451,23 @@ function find_admin_by_id($id)
     return $admin;
 }
 
+function find_admin_by_username($username)
+{
+    global $db;
+
+    $sql  = "SELECT * FROM admins ";
+    $sql .= "WHERE username = " . $db->quote($username) . " ";
+    $sql .= "LIMIT 1";
+
+    $result = $db->query($sql);
+    confirm_result_set($result);
+    $result->execute();
+    $admin = $result->fetch(PDO::FETCH_ASSOC);
+    // die( print_r($admin)); 
+    $result->closeCursor();
+    return $admin;
+}
+
 
 function insert_admin($admin)
 {
@@ -461,7 +478,7 @@ function insert_admin($admin)
         return $errors;
     }
 
-    $hashed_password = $admin['password']; // we will do hasing
+    $hashed_password = password_hash($admin['password'], PASSWORD_BCRYPT); // we can use PASSWORD_DEFAULT
 
     $sql = "INSERT INTO admins ";
     $sql .= "(first_name, last_name, email, username, hashed_password) ";
@@ -556,7 +573,7 @@ function update_admin($admin)
         return $errors;
     }
 
-    $hashed_password = $admin['password'];
+    $hashed_password = password_hash($admin['password'], PASSWORD_BCRYPT); // we can use PASSWORD_DEFAULT
 
     $sql = "UPDATE admins SET ";
     $sql .= "first_name=" . $db->quote($admin['first_name'])  . ", ";

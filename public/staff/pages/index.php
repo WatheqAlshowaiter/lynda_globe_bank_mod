@@ -1,5 +1,6 @@
 <?php require_once('../../../private/initialize.php'); ?>
 <!-- you shluod make this only with dots(../../) -->
+<?php require_login(); ?>
 
 
 <?php

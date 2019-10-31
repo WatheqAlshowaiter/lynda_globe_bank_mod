@@ -1,6 +1,8 @@
 <?php
 require_once('../../../private/initialize.php');
 ?>
+<?php require_login(); ?>
+
 
 <?php
 if (is_post_request()) {

@@ -1,6 +1,8 @@
 <?php
 require_once('../../../private/initialize.php');
 ?>
+<?php require_login(); ?>
+
 
 <?php
 if (is_post_request()) {
@@ -50,19 +52,19 @@ if (is_post_request()) {
             <form action="" method="post">
                 <div class="form-group">
                     <label for="first_name">الاسم الأول</label>
-                    <input type="text" class="form-control" name="first_name" id="first_name" autofocus value="<?= ($admin['first_name']);?>">
+                    <input type="text" class="form-control" name="first_name" id="first_name" autofocus value="<?= ($admin['first_name']); ?>">
                 </div>
                 <div class="form-group">
                     <label for="last_name">الاسم الثاني</label>
-                    <input type="text" class="form-control" name="last_name" id="last_name" value="<?= ($admin['last_name']);?>">
+                    <input type="text" class="form-control" name="last_name" id="last_name" value="<?= ($admin['last_name']); ?>">
                 </div>
                 <div class="form-group">
                     <label for="username">اسم المستخدم</label>
-                    <input type="text" class="form-control" name="username" id="username" value="<?= ($admin['username']);?>">
+                    <input type="text" class="form-control" name="username" id="username" value="<?= ($admin['username']); ?>">
                 </div>
                 <div class="form-group">
                     <label for="email">البريد الإلكتروني</label>
-                    <input type="email" class="form-control" name="email" id="email" value="<?= ($admin['email']);?>">
+                    <input type="email" class="form-control" name="email" id="email" value="<?= ($admin['email']); ?>">
                 </div>
                 <div class="form-group">
                     <label for="password">كلمة المرور</label>
@@ -72,7 +74,7 @@ if (is_post_request()) {
                     <label for="confirm_password">تأكيد كلمة المرور</label>
                     <input type="password" class="form-control" name="confirm_password" id="confirm_password" value="">
                 </div>
-               
+
 
                 <div class="form-group"> <br>
                     <button type="submit" class="btn btn-primary"> إنشئ اسم حساب جديد </button>

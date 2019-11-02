@@ -10,7 +10,6 @@
         <h2>القائمة الرئيسية</h2>
          <ul>
             <li><a href="<?= url_for('staff/subjects/index.php');?>">العناوين</a></li>
-            <li><a href="<?= url_for('staff/pages/index.php');?>">الصفحات</a></li>
             <li><a href="<?= url_for('staff/admins/index.php');?>">المديرون</a></li>
         </ul>
     </div>

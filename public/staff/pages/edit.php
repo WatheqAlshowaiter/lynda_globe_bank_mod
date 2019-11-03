@@ -22,17 +22,17 @@ if (is_post_request()) {
     $page['content'] = $_POST['content'] ?? '';
 
     $result  = update_page($page);
-    if ( $result === true){
+    if ($result === true) {
         $_SESSION['message'] = 'عدلت الصفحة بنجاح';
         redirect_to(url_for('/staff/pages/show.php?id=' . $id));
-    }else {
-        $errors = $result; 
+    } else {
+        $errors = $result;
     }
 } else {
     $page = find_page_by_id($id);
 }
 
-$page_count = count_table("pages");
+$page_count = count_table("pages", ["subject_id" => $page["subject_id"]]);
 
 ?>
 
@@ -43,10 +43,10 @@ $page_count = count_table("pages");
 <div id="content" class="container new-page">
     <div class="row">
         <div class="col-6">
-            <a class="" href="<?= url_for('/staff/pages/index.php'); ?>">&laquo; العودة للقائمة </a>
+            <a class="" href="<?= url_for('/staff/subjects/show.php?id=' . h(u($page['subject_id']))); ?>">&laquo; العودة للقائمة </a>
 
             <h2>عدّل الصفحة</h2>
-            <?php echo display_errors($errors);?> 
+            <?php echo display_errors($errors); ?>
             <form action="" method="post">
                 <div class="form-group">
                     <label for="subject_id">العنوان</label>
@@ -91,14 +91,14 @@ $page_count = count_table("pages");
 
                 <div class="form-group"> <br>
                     <label for="conent">المحتوى </label> <br>
-                    <textarea class="form-control" name="content" id="content" cols="30" rows="5"><?= $page['content']?></textarea>
+                    <textarea class="form-control" name="content" id="content" cols="30" rows="5"><?= $page['content'] ?></textarea>
                 </div>
 
                 <div class="form-group"> <br>
                     <button type="submit" class="btn btn-primary"> عدل هذه الصفحة</button>
-                    <br>  <br>
+                    <br> <br>
                 </div>
-                <br>  <br>
+                <br> <br>
             </form>
 
 

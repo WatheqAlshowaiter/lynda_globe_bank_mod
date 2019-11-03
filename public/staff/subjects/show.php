@@ -31,7 +31,7 @@ $page_set = find_pages_by_subject_id($id);
         <div id="content" class="container">
             <div>
                 <h2>الصفحات</h2>
-                <a href="<?= url_for('staff/pages/new.php') ?>" class="">إنشئ صفحة جديدة</a>
+                <a href="<?= url_for('staff/pages/new.php?subject='.h(u($subject['id']))) ?>" class="">إنشئ صفحة جديدة</a>
             </div>
             <div class="table-responsive-sm">
                 <!-- I will test it to know it's make table responsive or not -->

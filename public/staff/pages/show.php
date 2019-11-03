@@ -20,7 +20,7 @@ $page  = find_page_by_id($id);
 
 <div id="content" class="container page-show">
     <div>
-        <a class="" href="<?= url_for('/staff/pages/index.php'); ?>">&laquo; العودة للقائمة </a>
+        <a class="" href="<?= url_for('/staff/subjects/show.php?id=' . h(u($page['subject_id']))); ?>">&laquo; العودة للقائمة </a>
         <h1>الصفحة: <?= h($page['menu_name']) ?></h1>
         <a href="<?= url_for('/index.php?id=' . h(u($page["id"])) . "&preview=true"); ?>" target="_blank"> إظهار على الصفحة الرئيسية &raquo;</a>
 

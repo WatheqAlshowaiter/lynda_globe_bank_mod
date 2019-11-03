@@ -10,11 +10,18 @@
  * @param string $table_name
  * @return int
  */
-function count_table($table_name)
+function count_table($table_name, $option = [])
 {
     global $db;
 
+    $subject = $option['subject_id'] ?? false;
+
     $sql = "SELECT COUNT( id ) as 'count' from " . $table_name . " ";
+    if ($subject) {
+        $sql .= "where subject_id =" . $db->quote($subject) . "";
+    }
+    // die($sql); 
+
     $result = $db->query($sql);
     confirm_result_set($result);
     $table_count = $result->fetchColumn();
@@ -90,6 +97,8 @@ function insert_subject($subject)
         return $errors;
     }
 
+    shift_subject_position(0, $subject['position']);
+
     $sql   =  "INSERT INTO subjects ";
     $sql  .= " (menu_name, position, visible) Values ( ";
     $sql  .= "" . $db->quote($subject['menu_name']) . ", ";
@@ -125,6 +134,10 @@ function update_subject($subject)
         return $errors;
     }
 
+    $old_subject = find_subject_by_id($subject['id']);
+    $old_position = $old_subject['position'];
+    shift_subject_position($old_position, $subject['position'], $subject['id']);
+
     $sql = "UPDATE subjects SET ";
     $sql .= "menu_name = " . $db->quote($subject['menu_name']) . ", ";
     $sql .= "position = " . $db->quote($subject['position']) . ", ";
@@ -153,6 +166,10 @@ function delete_subject($id)
 {
     global $db;
 
+    $old_subject = find_subject_by_id($id);
+    $old_position = $old_subject['position'];
+    shift_subject_position($old_position, 0, $id);
+
     $sql  = "DELETE FROM subjects ";
     $sql .= "WHERE id = " . $db->quote($id) . "";
     $sql .= "LIMIT 1";
@@ -163,6 +180,49 @@ function delete_subject($id)
         return true;
     } else {
         echo "custom error: " . $db->error();
+        db_disconnect($db);
+        exit;
+    }
+}
+
+function shift_subject_position($start_pos, $end_pos, $current_id = 0)
+{
+    global $db;
+
+    if ($start_pos == $end_pos) {
+        return;
+    }
+    $sql = "UPDATE subjects ";
+    if ($start_pos == 0) {
+        // new item, +1 to items greater than $end_pos
+        $sql .= "SET position = position + 1 ";
+        $sql .= "WHERE position >= " . $db->quote($end_pos) . " ";
+    } elseif ($end_pos == 0) {
+        // delete item, -1 from items greater than $start_pos
+        $sql .= "SET position = position - 1 ";
+        $sql .= "WHERE position > " . $db->quote($start_pos) . " ";
+    } elseif ($start_pos <  $end_pos) {
+        // move later, -1 from items between (including $end_pos)
+        $sql .= "SET position = position - 1 ";
+        $sql .= "WHERE position > " . $db->quote($start_pos) . " ";
+        $sql .= "AND position <= " . $db->quote($end_pos) . " ";
+    } elseif ($start_pos > $end_pos) {
+        // move earlier, +1 to items between (including $end_pos)
+        $sql .= "SET position = position + 1 ";
+        $sql .= "WHERE position < " . $db->quote($start_pos) . " ";
+        $sql .= "AND position >= " . $db->quote($end_pos) . " ";
+    }
+    // Exclude the current_id in the SQL WHERE clause
+    $sql .= "AND id != " . $db->quote($current_id) . " ";
+
+
+    $result = $db->query($sql);
+    // For UPDATE statements, $result is true/false
+    if ($result) {
+        return true;
+    } else {
+        // UPDATE failed
+        echo "custom insert error: " . $db->error();
         db_disconnect($db);
         exit;
     }
@@ -233,6 +293,8 @@ function insert_page($page)
         return $errors;
     }
 
+    shift_page_positions(0, $page['position'], $page['subject_id'], $page['id']);
+
     $sql   =  "INSERT INTO pages ";
     $sql  .= " (subject_id, menu_name, position, visible, content) Values ( ";
     $sql  .= "" . $db->quote($page['subject_id']) . ", ";
@@ -266,6 +328,8 @@ function update_page($page)
     if ($errors) {
         return $errors;
     }
+    $old_page = find_page_by_id($page['id']);
+    shift_page_positions($old_page['position'], $page['position'], $page['subject_id'], $page['id']);
 
     $sql = "UPDATE pages SET ";
     $sql .= "subject_id= " . $db->quote($page['subject_id']) . ", ";
@@ -296,6 +360,9 @@ function update_page($page)
 function delete_page($id)
 {
     global $db;
+    $old_page = find_page_by_id($id);
+
+    shift_page_positions($old_page['position'], 0, $old_page['subject_id'], $id);
 
     $sql  = "DELETE FROM pages ";
     $sql .= "WHERE id = " . $db->quote($id) . "";
@@ -337,6 +404,49 @@ function find_pages_by_subject_id($subject_id, $option = [])
     return $result; // result set
 }
 
+function shift_page_positions($start_pos, $end_pos, $subject_id, $current_id = 0)
+{
+    global $db;
+
+    if ($start_pos == $end_pos) {
+        return;
+    }
+    $sql = "UPDATE pages ";
+    if ($start_pos == 0) {
+        // new item, +1 to items greater than $end_pos
+        $sql .= "SET position = position + 1 ";
+        $sql .= "WHERE position >= " . $db->quote($end_pos) . " ";
+    } elseif ($end_pos == 0) {
+        // delete item, -1 from items greater than $start_pos
+        $sql .= "SET position = position - 1 ";
+        $sql .= "WHERE position > " . $db->quote($start_pos) . " ";
+    } elseif ($start_pos <  $end_pos) {
+        // move later, -1 from items between (including $end_pos)
+        $sql .= "SET position = position - 1 ";
+        $sql .= "WHERE position > " . $db->quote($start_pos) . " ";
+        $sql .= "AND position <= " . $db->quote($end_pos) . " ";
+    } elseif ($start_pos > $end_pos) {
+        // move earlier, +1 to items between (including $end_pos)
+        $sql .= "SET position = position + 1 ";
+        $sql .= "WHERE position < " . $db->quote($start_pos) . " ";
+        $sql .= "AND position >= " . $db->quote($end_pos) . " ";
+    }
+    // Exclude the current_id in the SQL WHERE clause
+    $sql .= "AND id != " . $db->quote($current_id) . " ";
+    $sql .= "AND subject_id = " . $db->quote($subject_id) . " ";
+
+
+    $result = $db->query($sql);
+    // For UPDATE statements, $result is true/false
+    if ($result) {
+        return true;
+    } else {
+        // UPDATE failed
+        echo "Custom Error" . $db->error();;
+        db_disconnect($db);
+        exit;
+    }
+}
 
 
 /******************************************************

@@ -19,22 +19,21 @@ if (is_post_request()) {
         $new_id = $db->lastInsertId();
         $_SESSION['message'] = 'أنشئت الصفحة بنجاح';
         redirect_to(url_for("/staff/pages/show.php?id=" . $new_id));
-    }else { 
+    } else {
         $errors = $result;
     }
 } else {
     $page = [];
-    $page['subject_id'] =  '';
+    $page['subject_id'] =  $_GET['subject'] ?? 1;
     $page['menu_name'] =  '';
-    
-    $page_count = count_table("pages") + 1;
+
+    $page_count = count_table("pages",["subject_id"=> $page["subject_id"]] ) + 1;
     $page['position'] = $page_count;
 
     $page['visible'] =  '';
     $page['content'] = '';
-  
 }
-$page_count = count_table("pages") + 1;
+$page_count = count_table("pages",["subject_id"=> $page["subject_id"]] ) + 1;
 
 ?>
 
@@ -45,7 +44,7 @@ $page_count = count_table("pages") + 1;
 <div id="content" class="container new-page">
     <div class="row">
         <div class="col-6">
-            <a class="" href="<?= url_for('/staff/pages/index.php'); ?>">&laquo; العودة للقائمة </a>
+            <a class="" href="<?= url_for('/staff/subjects/show.php?id=' . h(u($page['subject_id']))); ?>">&laquo; العودة للقائمة </a>
 
             <h2>إنشئ صفحة جديدة</h2>
             <?php echo display_errors($errors); ?>
@@ -57,9 +56,9 @@ $page_count = count_table("pages") + 1;
                         $subject_set = find_all_subjects();
                         while ($subject = $subject_set->fetch((PDO::FETCH_ASSOC))) {
                             echo "  <option value=\"" . h($subject["id"]) . "\"";
-                           if ($subject["id"] == $page["subject_id"]){
-                               echo " selected"; 
-                           }
+                            if ($subject["id"] == $page["subject_id"]) {
+                                echo " selected";
+                            }
                             echo ">" . h($subject['menu_name']) . "</option>";
                         }
                         ?>
@@ -93,7 +92,7 @@ $page_count = count_table("pages") + 1;
 
                 <div class="form-group"> <br>
                     <label for="conent">المحتوى </label> <br>
-                    <textarea class="form-control" name="content" id="content" cols="30" rows="5"><?= isset($page["content"])? $page["content"]:"";?></textarea>
+                    <textarea class="form-control" name="content" id="content" cols="30" rows="5"><?= isset($page["content"]) ? $page["content"] : ""; ?></textarea>
                 </div>
 
                 <div class="form-group"> <br>
